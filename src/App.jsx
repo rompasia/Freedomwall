@@ -27,11 +27,20 @@ function App() {
   const [creating, setCreating] = useState(false);
   const { message: toastMsg, visible: toastVisible, showToast } = useToast();
 
-  // ── HANDLERS ──
+  // Track if user has ever entered before (to show returning-user messaging)
+  const [hasEverEntered, setHasEverEntered] = useState(!!alias);
 
   const handleEnter = (name) => {
     setAlias(name);
     setHasEntered(true);
+    setHasEverEntered(true);
+  };
+
+  const handleLogout = () => {
+    setAlias('');
+    setHasEntered(false);
+    setViewingNote(null);
+    setCreating(false);
   };
 
   const handleAddNote = () => setCreating(true);
@@ -51,13 +60,12 @@ function App() {
 
   return (
     <>
-      {/* Landing screen — shown until user enters alias */}
-      {!hasEntered && <Landing onEnter={handleEnter} />}
+      {!hasEntered && <Landing onEnter={handleEnter} isReturning={hasEverEntered} />}
 
       {/* Main app */}
       {hasEntered && (
         <>
-          <Header alias={alias} onAddNote={handleAddNote} />
+          <Header alias={alias} onAddNote={handleAddNote} onLogout={handleLogout} />
           <Wall notes={notes} onNoteClick={setViewingNote} />
         </>
       )}

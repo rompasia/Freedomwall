@@ -5,8 +5,9 @@ import '../styles/Landing.css';
  * Landing — front page / alias creation screen.
  * Props:
  *   onEnter(alias: string) — called when user clicks continue
+ *   isReturning: bool      — true when user logged out to switch alias
  */
-function Landing({ onEnter }) {
+function Landing({ onEnter, isReturning = false }) {
   const [alias, setAlias] = useState('');
   const [exiting, setExiting] = useState(false);
 
@@ -31,24 +32,35 @@ function Landing({ onEnter }) {
         {/* content */}
         <h1 className="landing-paper__title">The Freedom Wall</h1>
         <p className="landing-paper__subtitle">
-          a quiet corner of the internet, just for thoughts.
+          {isReturning
+            ? 'switching aliases — who are you writing as today?'
+            : 'a quiet corner of the internet, just for thoughts.'}
         </p>
 
         <div className="landing-paper__divider" />
 
-        <p className="landing-paper__disclaimer">
-          <strong>What is this?</strong>
-          <br />
-          A digital corkboard — a dumping ground for thoughts, letters,
-          reminders, rants, or whatever needs to get out of your head. Notes
-          are saved locally on this device.
-          <br />
-          <br />
-          <strong>Disclaimer:</strong>
-          <br />
-          This is a personal space. Write freely. Nothing here is shared,
-          judged, or graded. Treat it like your most honest notebook.
-        </p>
+        {!isReturning && (
+          <p className="landing-paper__disclaimer">
+            <strong>What is this?</strong>
+            <br />
+            A digital corkboard — a dumping ground for thoughts, letters,
+            reminders, rants, or whatever needs to get out of your head. Notes
+            are saved locally on this device.
+            <br />
+            <br />
+            <strong>Disclaimer:</strong>
+            <br />
+            This is a personal space. Write freely. Nothing here is shared,
+            judged, or graded. Treat it like your most honest notebook.
+          </p>
+        )}
+
+        {isReturning && (
+          <p className="landing-paper__disclaimer">
+            Your notes stay on the wall — only your alias changes. Pick a new
+            name or re-enter your old one to continue.
+          </p>
+        )}
 
         <label className="landing-paper__username-label">
           Your alias / nickname
@@ -65,7 +77,7 @@ function Landing({ onEnter }) {
           autoFocus
         />
         <button className="landing-paper__continue-btn" onClick={handleEnter}>
-          ✓ I agree — take me to the wall
+          {isReturning ? '✓ Switch alias' : '✓ I agree — take me to the wall'}
         </button>
       </div>
     </div>

@@ -2,12 +2,13 @@ import React from 'react';
 import '../styles/Header.css';
 
 /**
- * Header — sticky top bar with brand, alias, and Add Note button.
+ * Header — sticky top bar with brand, alias, Add Note, and Logout buttons.
  * Props:
  *   alias: string
  *   onAddNote: () => void
+ *   onLogout: () => void
  */
-function Header({ alias, onAddNote }) {
+function Header({ alias, onAddNote, onLogout }) {
   return (
     <header className="app-header">
       <div className="app-header__brand">
@@ -18,10 +19,15 @@ function Header({ alias, onAddNote }) {
         </span>
       </div>
 
-      <button className="app-header__add-btn" onClick={onAddNote}>
-        <span className="plus-icon">+</span>
-        Add Note
-      </button>
+      <div className="app-header__actions">
+        <button className="app-header__logout-btn" onClick={onLogout} title="Switch alias">
+          ↩ logout
+        </button>
+        <button className="app-header__add-btn" onClick={onAddNote}>
+          <span className="plus-icon">+</span>
+          Add Note
+        </button>
+      </div>
     </header>
   );
 }
