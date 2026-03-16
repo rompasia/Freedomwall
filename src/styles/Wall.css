@@ -1,0 +1,151 @@
+/* ── WALL ── */
+.wall {
+  padding: 2.5rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.wall__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.wall__label {
+  font-family: 'Caveat', cursive;
+  font-size: 1.4rem;
+  color: var(--ink-muted);
+}
+
+.wall__count {
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align: center;
+  padding: 5rem 2rem;
+  color: var(--ink-muted);
+  grid-column: 1 / -1;
+}
+
+.empty-state__icon {
+  font-family: 'Caveat', cursive;
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.empty-state__text {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 1rem;
+}
+
+/* ── STICKY NOTE CARD ── */
+.note-card {
+  position: relative;
+  border-radius: 2px;
+  padding: 1.2rem 1rem 1rem;
+  cursor: pointer;
+  transition: transform var(--transition-spring), box-shadow var(--transition-spring);
+  box-shadow: 3px 3px 0 rgba(44, 36, 22, 0.12), 6px 6px 0 rgba(44, 36, 22, 0.06);
+  min-height: 180px;
+  overflow: hidden;
+  animation: noteIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  transform: rotate(var(--rot, 0deg));
+}
+
+.note-card::before {
+  content: '';
+  display: block;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.35);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.note-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 23px,
+    rgba(44, 36, 22, 0.07) 23px,
+    rgba(44, 36, 22, 0.07) 24px
+  );
+  pointer-events: none;
+}
+
+.note-card:hover {
+  transform: scale(1.04) rotate(0deg) translateY(-4px) !important;
+  box-shadow: 6px 8px 0 rgba(44, 36, 22, 0.15), 12px 14px 0 rgba(44, 36, 22, 0.07);
+  z-index: 10;
+}
+
+/* Note color variants */
+.note-card--y { background: var(--sticky-y); }
+.note-card--g { background: var(--sticky-g); }
+.note-card--p { background: var(--sticky-p); }
+.note-card--r { background: var(--sticky-r); }
+.note-card--o { background: var(--sticky-o); }
+
+.note-card__alias {
+  font-family: 'Caveat', cursive;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(44, 36, 22, 0.55);
+  margin-top: 0.3rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.03em;
+  position: relative;
+  z-index: 1;
+}
+
+.note-card__preview {
+  font-family: 'Lora', serif;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: var(--ink);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  position: relative;
+  z-index: 1;
+  word-break: break-word;
+}
+
+.note-card__date {
+  font-size: 0.68rem;
+  color: rgba(44, 36, 22, 0.45);
+  font-family: 'DM Sans', sans-serif;
+  position: absolute;
+  bottom: 0.7rem;
+  right: 0.8rem;
+  z-index: 1;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .wall {
+    padding: 1.5rem 1rem;
+  }
+}

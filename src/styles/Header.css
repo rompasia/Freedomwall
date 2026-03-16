@@ -1,0 +1,84 @@
+/* ── HEADER ── */
+.app-header {
+  background: var(--cream-mid);
+  border-bottom: 2px solid var(--ruled);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(44, 36, 22, 0.06);
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.app-header__title {
+  font-family: 'Caveat', cursive;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.app-header__user {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.app-header__user-alias {
+  font-style: normal;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.app-header__add-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 2px 2px 0 var(--accent-shadow);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
+}
+
+.app-header__add-btn:hover {
+  background: var(--accent-hover);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--accent-shadow);
+}
+
+.app-header__add-btn:active {
+  transform: translate(0, 0);
+  box-shadow: 1px 1px 0 var(--accent-shadow);
+}
+
+.app-header__add-btn .plus-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .app-header {
+    padding: 0.8rem 1rem;
+  }
+  .app-header__title {
+    font-size: 1.4rem;
+  }
+  .app-header__user {
+    display: none;
+  }
+}
