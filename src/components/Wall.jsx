@@ -6,10 +6,11 @@ import '../styles/Wall.css';
  * Wall — displays all note cards in a masonry-style grid.
  * Props:
  *   notes: array
+ *   loading: bool
  *   onNoteClick: (note) => void
  */
-function Wall({ notes, onNoteClick }) {
-  // Show newest first
+function Wall({ notes, loading, onNoteClick }) {
+  // Newest first
   const sorted = [...notes].reverse();
 
   return (
@@ -20,7 +21,12 @@ function Wall({ notes, onNoteClick }) {
       </div>
 
       <div className="notes-grid">
-        {sorted.length === 0 ? (
+        {loading ? (
+          <div className="empty-state">
+            <span className="empty-state__icon">⏳</span>
+            <p className="empty-state__text">Loading the wall...</p>
+          </div>
+        ) : sorted.length === 0 ? (
           <div className="empty-state">
             <span className="empty-state__icon">✏</span>
             <p className="empty-state__text">
