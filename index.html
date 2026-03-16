@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Freedom Wall — My Thoughts, Unfiltered</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cream: #fdf6e3;
+    --cream-dark: #f5ead0;
+    --cream-mid: #f9f0d8;
+    --ink: #2c2416;
+    --ink-light: #5a4e38;
+    --ink-muted: #8a7d66;
+    --ruled: #c9bfa8;
+    --accent: #b5451b;
+    --accent-light: #d4703f;
+    --sticky-y: #fef08a;
+    --sticky-b: #bbf7d0;
+    --sticky-p: #e9d5ff;
+    --sticky-r: #fecaca;
+    --sticky-o: #fed7aa;
+    --paper-shadow: 3px 3px 0 #c9bfa8, 6px 6px 0 #e0d5be;
+    --transition: 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── LOADING / LANDING SCREEN ── */
+  #landing {
+    position: fixed; inset: 0; z-index: 1000;
+    background: var(--cream);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 2rem;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  #landing.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+  }
+
+  .landing-paper {
+    background: #fff;
+    border: 1px solid var(--ruled);
+    border-radius: 2px;
+    padding: 3rem 3.5rem;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: var(--paper-shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .landing-paper::before {
+    content: '';
+    position: absolute;
+    left: 64px; top: 0; bottom: 0;
+    width: 1px;
+    background: #f4a5a5;
+    opacity: 0.5;
+  }
+
+  .landing-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 31px,
+      var(--ruled) 31px,
+      var(--ruled) 32px
+    );
+    opacity: 0.35;
+  }
+
+  .landing-title {
+    font-family: 'Caveat', cursive;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+    position: relative;
+  }
+
+  .landing-subtitle {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+    margin-bottom: 1.8rem;
+    position: relative;
+  }
+
+  .landing-divider {
+    height: 1px;
+    background: var(--ruled);
+    margin: 1.5rem 0;
+    position: relative;
+  }
+
+  .disclaimer {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    font-family: 'Lora', serif;
+    font-style: italic;
+    line-height: 1.7;
+    margin-bottom: 1.8rem;
+    position: relative;
+  }
+
+  .disclaimer strong {
+    font-style: normal;
+    color: var(--ink-light);
+  }
+
+  .username-label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: block;
+  }
+
+  .username-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--ruled);
+    background: transparent;
+    font-family: 'Caveat', cursive;
+    font-size: 1.4rem;
+    color: var(--ink);
+    padding: 0.3rem 0;
+    outline: none;
+    transition: border-color 0.2s;
+    position: relative;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .username-input:focus {
+    border-bottom-color: var(--accent);
+  }
+
+  .username-input::placeholder {
+    color: var(--ruled);
+  }
+
+  .continue-btn {
+    width: 100%;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.85rem 2rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+    position: relative;
+    letter-spacing: 0.05em;
+  }
+
+  .continue-btn:hover {
+    background: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .continue-btn:active {
+    transform: translateY(0);
+  }
+
+  .red-stamp {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    font-family: 'Caveat', cursive;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    transform: rotate(8deg);
+    opacity: 0.7;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── MAIN APP ── */
+  #app {
+    display: none;
+    min-height: 100vh;
+  }
+
+  #app.visible {
+    display: block;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--cream-mid);
+    border-bottom: 2px solid var(--ruled);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(44,36,22,0.06);
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .header-title {
+    font-family: 'Caveat', cursive;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .header-user {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+  }
+
+  .header-user span {
+    font-style: normal;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .add-note-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    display: flex; align-items: center; gap: 0.5rem;
+    box-shadow: 2px 2px 0 #8a3010;
+  }
+
+  .add-note-btn:hover {
+    background: #9a3a14;
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 #8a3010;
+  }
+
+  .add-note-btn:active {
+    transform: translate(0,0);
+    box-shadow: 1px 1px 0 #8a3010;
+  }
+
+  .plus-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  /* ── WALL ── */
+  #wall {
+    padding: 2.5rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .wall-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .wall-label {
+    font-family: 'Caveat', cursive;
+    font-size: 1.4rem;
+    color: var(--ink-muted);
+  }
+
+  .wall-count {
+    background: var(--ink);
+    color: var(--cream);
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+  }
+
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* ── STICKY NOTE CARDS ── */
+  .note-card {
+    position: relative;
+    border-radius: 2px;
+    padding: 1.2rem 1rem 1rem;
+    cursor: pointer;
+    transition: transform var(--transition), box-shadow var(--transition);
+    box-shadow: 3px 3px 0 rgba(44,36,22,0.12), 6px 6px 0 rgba(44,36,22,0.06);
+    min-height: 180px;
+    overflow: hidden;
+    animation: noteIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+
+  @keyframes noteIn {
+    from { opacity: 0; transform: scale(0.85) rotate(var(--rot, 0deg)); }
+    to   { opacity: 1; transform: scale(1) rotate(var(--rot, 0deg)); }
+  }
+
+  .note-card::before {
+    content: '';
+    display: block;
+    height: 24px;
+    background: rgba(255,255,255,0.35);
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+  }
+
+  .note-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 23px,
+      rgba(44,36,22,0.07) 23px,
+      rgba(44,36,22,0.07) 24px
+    );
+    pointer-events: none;
+  }
+
+  .note-card:hover {
+    transform: scale(1.04) rotate(0deg) translateY(-4px) !important;
+    box-shadow: 6px 8px 0 rgba(44,36,22,0.15), 12px 14px 0 rgba(44,36,22,0.07);
+    z-index: 10;
+  }
+
+  .note-alias {
+    font-family: 'Caveat', cursive;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(44,36,22,0.55);
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.03em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .note-content-preview {
+    font-family: 'Lora', serif;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--ink);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    position: relative;
+    z-index: 1;
+    word-break: break-word;
+  }
+
+  .note-date {
+    font-size: 0.68rem;
+    color: rgba(44,36,22,0.45);
+    font-family: 'DM Sans', sans-serif;
+    position: absolute;
+    bottom: 0.7rem;
+    right: 0.8rem;
+    z-index: 1;
+  }
+
+  /* Note colors */
+  .note-y  { background: var(--sticky-y); }
+  .note-g  { background: var(--sticky-b); }
+  .note-p  { background: var(--sticky-p); }
+  .note-r  { background: var(--sticky-r); }
+  .note-o  { background: var(--sticky-o); }
+
+  /* ── EMPTY STATE ── */
+  .empty-wall {
+    text-align: center;
+    padding: 5rem 2rem;
+    color: var(--ink-muted);
+    grid-column: 1/-1;
+  }
+
+  .empty-wall .big-icon {
+    font-family: 'Caveat', cursive;
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .empty-wall p {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1rem;
+  }
+
+  /* ── VIEW NOTE MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(44,36,22,0.55);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(2px);
+    animation: fadeOverlay 0.2s ease;
+  }
+
+  @keyframes fadeOverlay {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .modal-paper {
+    background: #fff;
+    max-width: 620px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    border-radius: 2px;
+    box-shadow: 8px 12px 0 rgba(44,36,22,0.18), 16px 24px 0 rgba(44,36,22,0.08);
+    animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  @keyframes modalIn {
+    from { transform: scale(0.9) translateY(20px); opacity: 0; }
+    to   { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .modal-paper::before {
+    content: '';
+    position: absolute;
+    left: 64px; top: 0; bottom: 0;
+    width: 1px;
+    background: #f4a5a5;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .modal-paper-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 31px,
+      var(--ruled) 31px,
+      var(--ruled) 32px
+    );
+    opacity: 0.25;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    width: 30px; height: 30px;
+    background: none; border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--ink-muted);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    transition: background 0.15s, color 0.15s;
+    z-index: 5;
+  }
+
+  .modal-close:hover {
+    background: var(--cream-dark);
+    color: var(--accent);
+  }
+
+  .modal-body {
+    padding: 2.5rem 3rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .modal-alias {
+    font-family: 'Caveat', cursive;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+
+  .modal-date {
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-content {
+    font-family: 'Lora', serif;
+    font-size: 0.98rem;
+    line-height: 2;
+    color: var(--ink);
+    word-break: break-word;
+  }
+
+  /* ── CREATE NOTE MODAL ── */
+  .create-modal {
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(44,36,22,0.55);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(2px);
+    animation: fadeOverlay 0.2s ease;
+  }
+
+  .create-paper {
+    background: #fff;
+    max-width: 680px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 2px;
+    box-shadow: 8px 12px 0 rgba(44,36,22,0.18), 16px 24px 0 rgba(44,36,22,0.08);
+    position: relative;
+    animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  .create-paper::before {
+    content: '';
+    position: absolute;
+    left: 64px; top: 0; bottom: 0;
+    width: 1px;
+    background: #f4a5a5;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .create-paper-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 31px,
+      var(--ruled) 31px,
+      var(--ruled) 32px
+    );
+    opacity: 0.2;
+  }
+
+  .create-header {
+    padding: 1.5rem 2rem 1rem;
+    border-bottom: 1px solid var(--ruled);
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .create-title {
+    font-family: 'Caveat', cursive;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-wrap: wrap;
+    padding: 0.75rem 2rem;
+    border-bottom: 1px solid var(--ruled);
+    background: var(--cream-mid);
+    position: relative;
+    z-index: 1;
+  }
+
+  .toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    padding-right: 10px;
+    margin-right: 8px;
+    border-right: 1px solid var(--ruled);
+  }
+
+  .toolbar-group:last-child {
+    border-right: none;
+  }
+
+  .tb-btn {
+    width: 30px; height: 30px;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    color: var(--ink-light);
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    font-family: inherit;
+    font-weight: 500;
+  }
+
+  .tb-btn:hover {
+    background: var(--cream-dark);
+    border-color: var(--ruled);
+    color: var(--ink);
+  }
+
+  .tb-btn.active {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+
+  .tb-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    font-style: normal;
+  }
+
+  .color-picker-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .color-swatch {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+
+  .color-swatch:hover { transform: scale(1.2); }
+  .color-swatch.selected { border-color: var(--ink); transform: scale(1.2); }
+
+  /* ── EDITOR ── */
+  .note-editor-wrap {
+    padding: 1.5rem 2rem 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  #noteEditor {
+    width: 100%;
+    min-height: 280px;
+    border: none;
+    outline: none;
+    font-family: 'Lora', serif;
+    font-size: 0.98rem;
+    line-height: 2;
+    color: var(--ink);
+    resize: none;
+    background: transparent;
+    caret-color: var(--accent);
+  }
+
+  #noteEditor:empty::before {
+    content: attr(data-placeholder);
+    color: var(--ink-muted);
+    font-style: italic;
+    pointer-events: none;
+  }
+
+  .create-footer {
+    padding: 1rem 2rem 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    border-top: 1px solid var(--ruled);
+    position: relative;
+    z-index: 1;
+  }
+
+  .cancel-btn {
+    background: none;
+    border: 1px solid var(--ruled);
+    color: var(--ink-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .cancel-btn:hover {
+    border-color: var(--ink-muted);
+    color: var(--ink);
+  }
+
+  .done-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0.6rem 1.8rem;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #8a3010;
+    transition: background 0.15s, transform 0.1s, box-shadow 0.1s;
+  }
+
+  .done-btn:hover {
+    background: #9a3a14;
+    transform: translate(-1px,-1px);
+    box-shadow: 3px 3px 0 #8a3010;
+  }
+
+  .done-btn:active {
+    transform: translate(0,0);
+    box-shadow: 1px 1px 0 #8a3010;
+  }
+
+  /* ── SELECT FONT SIZE ── */
+  .tb-select {
+    height: 30px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: var(--ink-light);
+    padding: 0 6px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .tb-select:hover {
+    background: var(--cream-dark);
+    border-color: var(--ruled);
+    color: var(--ink);
+  }
+
+  /* ── NOTE TAPE effect ── */
+  .note-tape {
+    position: absolute;
+    top: -8px; left: 50%;
+    transform: translateX(-50%);
+    width: 48px; height: 16px;
+    background: rgba(255,255,255,0.55);
+    border-radius: 1px;
+    box-shadow: 0 1px 2px rgba(44,36,22,0.1);
+    z-index: 5;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--ruled); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--ink-muted); }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 2px;
+    box-shadow: 3px 3px 0 rgba(44,36,22,0.3);
+    z-index: 9999;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .landing-paper { padding: 2rem 1.5rem; }
+    .landing-title { font-size: 2.2rem; }
+    header { padding: 0.8rem 1rem; }
+    .header-title { font-size: 1.4rem; }
+    .header-user { display: none; }
+    #wall { padding: 1.5rem 1rem; }
+    .modal-body { padding: 2rem 1.5rem; }
+    .create-paper { max-height: 95vh; }
+    .toolbar { padding: 0.5rem 1rem; }
+    .note-editor-wrap { padding: 1rem; }
+    .create-header, .create-footer { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── LANDING SCREEN ── -->
+<div id="landing">
+  <div class="landing-paper">
+    <div class="landing-lines"></div>
+    <div class="red-stamp">PERSONAL</div>
+    <div class="landing-title">The Freedom Wall</div>
+    <div class="landing-subtitle">a quiet corner of the internet, just for thoughts.</div>
+    <div class="landing-divider"></div>
+    <div class="disclaimer">
+      <strong>What is this?</strong><br>
+      A digital corkboard. A dumping ground for thoughts, letters, reminders, rants, or whatever needs to get out of your head. Notes are saved locally on this device.
+      <br><br>
+      <strong>Disclaimer:</strong><br>
+      This is a personal space. Write freely. Nothing here is shared, judged, or graded. Treat it like your most honest notebook.
+    </div>
+    <label class="username-label">Your alias / nickname</label>
+    <input class="username-input" id="usernameInput" type="text" placeholder="e.g. night owl, wanderer..." maxlength="30" autocomplete="off"/>
+    <button class="continue-btn" id="continueBtn" onclick="enterApp()">✓ I agree — take me to the wall</button>
+  </div>
+</div>
+
+<!-- ── MAIN APP ── -->
+<div id="app">
+
+  <!-- Header -->
+  <header>
+    <div class="header-brand">
+      <span class="header-title">The Freedom Wall</span>
+      <span class="header-user">writing as <span id="headerAlias">—</span></span>
+    </div>
+    <button class="add-note-btn" onclick="openCreate()">
+      <span class="plus-icon">+</span> Add Note
+    </button>
+  </header>
+
+  <!-- Wall -->
+  <section id="wall">
+    <div class="wall-header">
+      <span class="wall-label">pinned thoughts</span>
+      <span class="wall-count" id="noteCount">0</span>
+    </div>
+    <div class="notes-grid" id="notesGrid">
+      <div class="empty-wall" id="emptyState">
+        <span class="big-icon">✏</span>
+        <p>No notes yet. The wall is yours — start writing.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ── VIEW NOTE MODAL (dynamically created) ── -->
+
+<!-- ── CREATE NOTE MODAL ── -->
+<div class="create-modal" id="createModal" style="display:none;">
+  <div class="create-paper">
+    <div class="create-paper-lines"></div>
+    <div class="create-header">
+      <span class="create-title">New Note</span>
+      <button class="modal-close" onclick="closeCreate()">✕</button>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <!-- Text style -->
+      <div class="toolbar-group">
+        <button class="tb-btn" title="Bold" onclick="fmt('bold')"><b class="tb-label">B</b></button>
+        <button class="tb-btn" title="Italic" onclick="fmt('italic')"><i class="tb-label">I</i></button>
+        <button class="tb-btn" title="Underline" onclick="fmt('underline')"><u class="tb-label">U</u></button>
+        <button class="tb-btn" title="Strikethrough" onclick="fmt('strikeThrough')"><s class="tb-label">S</s></button>
+      </div>
+      <!-- Font size -->
+      <div class="toolbar-group">
+        <select class="tb-select" title="Font size" onchange="setFontSize(this.value)">
+          <option value="1">Small</option>
+          <option value="3" selected>Normal</option>
+          <option value="5">Large</option>
+          <option value="7">Huge</option>
+        </select>
+      </div>
+      <!-- Alignment -->
+      <div class="toolbar-group">
+        <button class="tb-btn" title="Align left" onclick="fmt('justifyLeft')">⬅</button>
+        <button class="tb-btn" title="Center" onclick="fmt('justifyCenter')">↔</button>
+        <button class="tb-btn" title="Align right" onclick="fmt('justifyRight')">➡</button>
+      </div>
+      <!-- Lists -->
+      <div class="toolbar-group">
+        <button class="tb-btn" title="Bullet list" onclick="fmt('insertUnorderedList')">• list</button>
+        <button class="tb-btn" title="Numbered list" onclick="fmt('insertOrderedList')">1. list</button>
+      </div>
+      <!-- Note color -->
+      <div class="toolbar-group color-picker-group" title="Note color">
+        <span style="font-size:0.7rem;color:var(--ink-muted);">Color:</span>
+        <div class="color-swatch selected" style="background:var(--sticky-y);" data-color="note-y" onclick="setNoteColor(this)"></div>
+        <div class="color-swatch" style="background:var(--sticky-b);" data-color="note-g" onclick="setNoteColor(this)"></div>
+        <div class="color-swatch" style="background:var(--sticky-p);" data-color="note-p" onclick="setNoteColor(this)"></div>
+        <div class="color-swatch" style="background:var(--sticky-r);" data-color="note-r" onclick="setNoteColor(this)"></div>
+        <div class="color-swatch" style="background:var(--sticky-o);" data-color="note-o" onclick="setNoteColor(this)"></div>
+      </div>
+    </div>
+
+    <!-- Editor -->
+    <div class="note-editor-wrap">
+      <div id="noteEditor" contenteditable="true" data-placeholder="What's on your mind?"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="create-footer">
+      <button class="cancel-btn" onclick="closeCreate()">Cancel</button>
+      <button class="done-btn" onclick="postNote()">📌 Pin it to the wall</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── STATE ──
+  let currentAlias = '';
+  let selectedColor = 'note-y';
+  let notes = [];
+
+  // Rotations for variety
+  const rots = [-2.5, -1.5, 0, 1, 2, -1, 1.5, -0.5, 2.5, -2];
+  let rotIdx = 0;
+
+  // ── LOAD from localStorage ──
+  function loadData() {
+    try {
+      const saved = localStorage.getItem('fw_notes');
+      if (saved) notes = JSON.parse(saved);
+      const alias = localStorage.getItem('fw_alias');
+      if (alias) {
+        currentAlias = alias;
+        skipLanding();
+      }
+    } catch(e) { notes = []; }
+  }
+
+  function saveData() {
+    try {
+      localStorage.setItem('fw_notes', JSON.stringify(notes));
+      localStorage.setItem('fw_alias', currentAlias);
+    } catch(e) {}
+  }
+
+  function skipLanding() {
+    document.getElementById('landing').style.display = 'none';
+    showApp();
+  }
+
+  // ── ENTER APP ──
+  function enterApp() {
+    const input = document.getElementById('usernameInput').value.trim();
+    currentAlias = input || 'anonymous';
+    showApp();
+    document.getElementById('landing').classList.add('fade-out');
+    setTimeout(() => { document.getElementById('landing').style.display = 'none'; }, 650);
+    saveData();
+  }
+
+  function showApp() {
+    document.getElementById('app').classList.add('visible');
+    document.getElementById('headerAlias').textContent = currentAlias;
+    renderNotes();
+  }
+
+  // allow Enter on username input
+  document.getElementById('usernameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') enterApp();
+  });
+
+  // ── RENDER NOTES ──
+  function renderNotes() {
+    const grid = document.getElementById('notesGrid');
+    const empty = document.getElementById('emptyState');
+    document.getElementById('noteCount').textContent = notes.length;
+
+    // Remove old cards
+    Array.from(grid.querySelectorAll('.note-card')).forEach(c => c.remove());
+
+    if (notes.length === 0) {
+      empty.style.display = '';
+      return;
+    }
+
+    empty.style.display = 'none';
+    notes.slice().reverse().forEach((note, i) => {
+      const card = createCard(note, i);
+      grid.appendChild(card);
+    });
+  }
+
+  function createCard(note, i) {
+    const rot = rots[i % rots.length];
+    const card = document.createElement('div');
+    card.className = `note-card ${note.color || 'note-y'}`;
+    card.style.setProperty('--rot', rot + 'deg');
+    card.style.transform = `rotate(${rot}deg)`;
+    card.style.animationDelay = (i * 0.04) + 's';
+    card.addEventListener('click', () => openView(note));
+
+    // strip html tags for preview
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = note.html;
+    const textPreview = tempDiv.textContent || tempDiv.innerText || '';
+
+    card.innerHTML = `
+      <div class="note-alias">— ${note.alias}</div>
+      <div class="note-content-preview">${note.html}</div>
+      <div class="note-date">${formatDate(note.ts)}</div>
+    `;
+    return card;
+  }
+
+  // ── VIEW NOTE ──
+  function openView(note) {
+    const existing = document.getElementById('viewModal');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.id = 'viewModal';
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+
+    overlay.innerHTML = `
+      <div class="modal-paper">
+        <div class="modal-paper-lines"></div>
+        <button class="modal-close" onclick="document.getElementById('viewModal').remove()">✕</button>
+        <div class="modal-body">
+          <div class="modal-alias">— ${note.alias}</div>
+          <div class="modal-date">${formatDate(note.ts)}</div>
+          <div class="modal-content">${note.html}</div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+  }
+
+  // ── CREATE NOTE ──
+  function openCreate() {
+    document.getElementById('createModal').style.display = 'flex';
+    document.getElementById('noteEditor').innerHTML = '';
+    document.getElementById('noteEditor').focus();
+    // reset color
+    selectedColor = 'note-y';
+    document.querySelectorAll('.color-swatch').forEach(s => {
+      s.classList.toggle('selected', s.dataset.color === 'note-y');
+    });
+  }
+
+  function closeCreate() {
+    document.getElementById('createModal').style.display = 'none';
+  }
+
+  function postNote() {
+    const editor = document.getElementById('noteEditor');
+    const html = editor.innerHTML.trim();
+    const text = editor.textContent.trim();
+    if (!text) {
+      showToast('Write something first!');
+      return;
+    }
+
+    notes.push({
+      id: Date.now(),
+      alias: currentAlias,
+      html: html,
+      color: selectedColor,
+      ts: Date.now()
+    });
+
+    saveData();
+    renderNotes();
+    closeCreate();
+    showToast('📌 Note pinned to the wall!');
+  }
+
+  // ── TOOLBAR ──
+  function fmt(cmd) {
+    document.getElementById('noteEditor').focus();
+    document.execCommand(cmd, false, null);
+  }
+
+  function setFontSize(size) {
+    document.getElementById('noteEditor').focus();
+    document.execCommand('fontSize', false, size);
+  }
+
+  function setNoteColor(el) {
+    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedColor = el.dataset.color;
+  }
+
+  // ── UTILS ──
+  function formatDate(ts) {
+    return new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // Close modals on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeCreate();
+      const vm = document.getElementById('viewModal');
+      if (vm) vm.remove();
+    }
+  });
+
+  // ── INIT ──
+  loadData();
+</script>
+</body>
+</html>
